@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\InsuranceController;
+use App\Models\Insurance;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+
+Route::get('/',function(){
+    (new Insurance())->importToDb();
+    dd('done');
     return view('welcome');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+
+Route::get('import',[InsuranceController::class,'create']);
+Route::post('import',[InsuranceController::class,'store']);
+
+
+
